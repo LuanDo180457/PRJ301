@@ -35,7 +35,7 @@ public class Qui extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Qui</title>");  
+            out.println("<title>Toi ne</title>");  
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Qui at " + request.getContextPath () + "</h1>");
