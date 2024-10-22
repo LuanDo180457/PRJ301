@@ -3,11 +3,12 @@ package controller;
 import DAO.QuanLyDAO;
 import model.Voucher;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Qui extends HttpServlet {
             request.getRequestDispatcher("voucher-list.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Có lỗi xảy ra khi lấy danh sách mã giảm giá.");
         }
     }
 
@@ -55,8 +57,9 @@ public class Qui extends HttpServlet {
                 dao.deleteVoucher(id);
             }
             response.sendRedirect("manage-voucher");
-        } catch (SQLException e) {
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Có lỗi xảy ra trong quá trình xử lý.");
         }
     }
 }

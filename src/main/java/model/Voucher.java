@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.sql.Date;
@@ -12,8 +8,6 @@ public class Voucher {
     private double giamGia;
     private Date ngayHetHan;
     private int trangThai;
-
-    public Voucher() {}
 
     public Voucher(int id, String name, double giamGia, Date ngayHetHan, int trangThai) {
         this.id = id;

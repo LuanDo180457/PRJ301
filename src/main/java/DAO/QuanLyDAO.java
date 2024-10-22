@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
-/**
- *
- * @author Do Van Luan - CE180457
- */
-
+import db.DBContext;
+import model.Voucher;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,24 +9,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Voucher;
-import db.DBContext;
 
 public class QuanLyDAO {
 
     // Lấy danh sách voucher, mặc định sắp xếp theo thời hạn (ngayHetHan)
     public List<Voucher> getAllVouchers() throws SQLException {
         List<Voucher> list = new ArrayList<>();
-        String query = "SELECT * FROM voucher ORDER BY ngay_het_han ASC";
+        String query = "SELECT * FROM voucher";
         try (Connection con = new DBContext().getConnection();
              PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                list.add(new Voucher(rs.getInt("id"), 
-                                     rs.getString("name"), 
-                                     rs.getDouble("giam_gia"), 
-                                     rs.getDate("ngay_het_han"), 
-                                     rs.getInt("trang_thai")));
+                list.add(new Voucher(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("giam_gia"),
+                        rs.getDate("ngay_het_han"),
+                        rs.getInt("trang_thai")));
             }
         }
         return list;
@@ -84,15 +76,15 @@ public class QuanLyDAO {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Voucher(rs.getInt("id"), 
-                                       rs.getString("name"), 
-                                       rs.getDouble("giam_gia"), 
-                                       rs.getDate("ngay_het_han"), 
-                                       rs.getInt("trang_thai"));
+                    return new Voucher(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getDouble("giam_gia"),
+                            rs.getDate("ngay_het_han"),
+                            rs.getInt("trang_thai"));
                 }
             }
         }
         return null;
     }
 }
-
