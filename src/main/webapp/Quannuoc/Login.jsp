@@ -117,12 +117,20 @@ background-color: transparent;
             .back-btn svg {
                 margin-right: 5px;
             }
+            .text-danger {
+                color: red; 
+                margin-top: 10px; 
+                margin-bottom: 10px; 
+                font-size: 14px; 
+            }
+            
         </style>
     </head>
     <body>
         <div class="login-container">
             <h1>User Login</h1>
-            <form action="login" method="post">
+             <p class="text-danger">${mess}</p> 
+            <form action="${pageContext.request.contextPath}/login" method="POST">
                 <div class="input-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter username" required>
@@ -135,7 +143,7 @@ background-color: transparent;
                     <button type="submit" name="role" value="user" class="btn">Login</button>
                 </div>
             </form>
-            <button class="back-btn" onclick="window.location.href='Giaodien.jsp'">
+            <button class="back-btn" onclick="window.location.href='${pageContext.request.contextPath}/Quannuoc/Giaodien.jsp'" id="back">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="20" height="20">
                     <path d="M11 19l-7-7 7-7" stroke="#6a82fb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
