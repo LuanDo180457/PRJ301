@@ -1,83 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package controller;
 
+import DAO.QuanLyDAO;
+import model.Voucher;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.List;
 
-/**
- *
- * @author Vo Truong Qui - CE181170
- */
-@WebServlet(name="Qui", urlPatterns={"/Qui"})
+@WebServlet(name = "Qui", urlPatterns = {"/manage-voucher"})
 public class Qui extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Toi ne</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Qui at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        QuanLyDAO dao = new QuanLyDAO();
+        try {
+            List<Voucher> vouchers = dao.getAllVouchers();
+            request.setAttribute("vouchers", vouchers);
+            request.getRequestDispatcher("voucher-list.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+        QuanLyDAO dao = new QuanLyDAO();
 
+        try {
+            if ("add".equals(action)) {
+                String name = request.getParameter("name");
+                double giamGia = Double.parseDouble(request.getParameter("giam_gia"));
+                String ngayHetHan = request.getParameter("ngay_het_han");
+                int trangThai = Integer.parseInt(request.getParameter("trang_thai"));
+
+                Voucher voucher = new Voucher(0, name, giamGia, java.sql.Date.valueOf(ngayHetHan), trangThai);
+                dao.insertVoucher(voucher);
+            } else if ("update".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String name = request.getParameter("name");
+                double giamGia = Double.parseDouble(request.getParameter("giam_gia"));
+                String ngayHetHan = request.getParameter("ngay_het_han");
+                int trangThai = Integer.parseInt(request.getParameter("trang_thai"));
+
+                Voucher voucher = new Voucher(id, name, giamGia, java.sql.Date.valueOf(ngayHetHan), trangThai);
+                dao.updateVoucher(voucher);
+            } else if ("delete".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                dao.deleteVoucher(id);
+            }
+            response.sendRedirect("manage-voucher");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
