@@ -2,14 +2,19 @@ package model;
 
 import java.sql.Date;
 
+/**
+ * Model class representing a Voucher entity.
+ */
 public class Voucher {
-    private int id;
-    private String name;
-    private double giamGia;
-    private Date ngayHetHan;
-    private int trangThai;
 
-    public Voucher(int id, String name, double giamGia, Date ngayHetHan, int trangThai) {
+    private int id =0;
+    private String name;
+    private double giamGia; // Discount percentage
+    private Date ngayHetHan; // Expiration date (java.sql.Date for SQL compatibility)
+    private boolean trangThai; // Status (active/inactive)
+
+    // Constructor
+    public Voucher(int id, String name, double giamGia, Date ngayHetHan, boolean trangThai) {
         this.id = id;
         this.name = name;
         this.giamGia = giamGia;
@@ -17,7 +22,9 @@ public class Voucher {
         this.trangThai = trangThai;
     }
 
-    // Getters và Setters
+ 
+
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -50,11 +57,13 @@ public class Voucher {
         this.ngayHetHan = ngayHetHan;
     }
 
-    public int getTrangThai() {
+    public boolean isTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(int trangThai) {
+    public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
+
+
 }
