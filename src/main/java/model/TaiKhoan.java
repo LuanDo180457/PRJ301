@@ -30,6 +30,8 @@ public class TaiKhoan {
         this.isAdmin = isAdmin;
     }
 
+    
+    
     public TaiKhoan() {
     }
 
@@ -71,6 +73,11 @@ public class TaiKhoan {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public String toString() {
+        return "TaiKhoan{" + "id=" + id + ", username=" + username + ", password=" + password + ", isNhanVien=" + isNhanVien + ", isAdmin=" + isAdmin + '}';
     }
     
 }

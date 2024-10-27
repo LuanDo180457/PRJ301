@@ -1,3 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="model.TaiKhoan"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DAO.TaiKhoanDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -163,6 +168,24 @@
         <div class="header">
             <img src="${pageContext.request.contextPath}/image/Chill_Ik_Coffee_logo.jpg" alt="Chill Ik Coffee Logo">
             <h1>Chill Ik Coffee</h1>
+
+            <c:if test="${not empty sessionScope.user}">
+                
+                <c:if test="${sessionScope.user.isAdmin}">
+                    <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
+                </c:if>
+            </c:if>
+                <%--
+            <c:if test="${sessionScope.user instanceof model.TaiKhoan}">
+                <c:set var="user" value="${sessionScope.user}" />
+                <c:if test="${user.isAdmin}">
+                    <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
+                </c:if>
+            </c:if>
+--%>
+
+
+
             <div class="navbar">
                 <a href="#">Trang chủ</a>
                 <div class="dropdown">
@@ -194,7 +217,7 @@
         <div class="main-content">
             <div class="voucher">
                 <h2>Special Vouchers</h2>
-               <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
+                <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
 
                 <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
 
