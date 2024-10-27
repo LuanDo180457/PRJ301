@@ -167,7 +167,7 @@
                 <a href="#">Trang chủ</a>
                 <div class="dropdown">
                     <a href="menu.jsp">Menu</a>
-                    <a href="login.jsp">Đăng nhập</a>
+                    <a href="Login.jsp">Đăng nhập</a>
                     <a href="DK_taikhoan.jsp">Đăng ký</a>
                 </div>
             </div>
