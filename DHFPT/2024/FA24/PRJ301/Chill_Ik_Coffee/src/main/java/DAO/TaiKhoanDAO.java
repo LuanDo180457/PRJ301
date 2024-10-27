@@ -4,67 +4,38 @@
  */
 package DAO;
 
+import db.DBContext;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.TaiKhoan;
+
 /**
  *
  * @author Do Van Luan - CE180457
  */
-public class TaiKhoanDAO {
-    private int id;
-    private String username;
-    private String password;
-    private boolean isNhanvien;
-    private boolean isAdmin;
+public class TaiKhoanDAO extends db.DBContext{
 
-    public TaiKhoanDAO(int id, String username, String password, boolean isNhanvien, boolean isAdmin) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.isNhanvien = isNhanvien;
-        this.isAdmin = isAdmin;
+    // 1. Read
+    public ArrayList<TaiKhoan> getAll() {
+
+        ArrayList<TaiKhoan> taiKhoans = new ArrayList<>();
+        String query = "select * from tai_khoan";
+
+        try ( ResultSet rs = execSelectQuery(query)) {
+
+            while (rs.next()) {
+                taiKhoans.add(new TaiKhoan(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getBoolean(4),rs.getBoolean(5)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Err");
+        }
+        return taiKhoans;
     }
 
-    public TaiKhoanDAO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isIsNhanvien() {
-        return isNhanvien;
-    }
-
-    public void setIsNhanvien(boolean isNhanvien) {
-        this.isNhanvien = isNhanvien;
-    }
-
-    public boolean isIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-    
-    
 }
