@@ -124,8 +124,8 @@
                                 <td><input type="checkbox" ${m.isNhanVien ? "checked" : ""} disabled class="rented-checkbox"></td>
                                 <td><input type="checkbox" ${m.isAdmin ? "checked" : ""} disabled class="rented-checkbox"></td>
                                 <td>
-                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=edit'/>?id=${m.id}" class="btn btn-secondary">Edit</a>
-                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=delete'/>?id=${m.id}" class="btn btn-danger">Delete</a>
+                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=edit'/>&id=${m.id}" class="btn btn-secondary">Edit</a>
+                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=delete'/>&id=${m.id}" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>
