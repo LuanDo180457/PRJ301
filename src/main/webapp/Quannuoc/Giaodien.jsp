@@ -22,7 +22,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-image: url('../image/backgroup1.png');
+                background-image: url('${pageContext.request.contextPath}/image/backgroup1.png');
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed; /* Giữ cố định nền khi cuộn */
@@ -174,24 +174,24 @@
                 <c:if test="${sessionScope.user.isAdmin}">
                     <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
                 </c:if>
+                    
+                  <li><span>Xin chào, ${sessionScope.user.username}</span></li>
             </c:if>
-                <%--
-            <c:if test="${sessionScope.user instanceof model.TaiKhoan}">
-                <c:set var="user" value="${sessionScope.user}" />
-                <c:if test="${user.isAdmin}">
-                    <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
-                </c:if>
-            </c:if>
---%>
+         
 
-
+            
 
             <div class="navbar">
                 <a href="#">Trang chủ</a>
                 <div class="dropdown">
                     <a href="menu.jsp">Menu</a>
+                    <c:if test="${empty sessionScope.user}">
                     <a href="${pageContext.request.contextPath}/Quannuoc/Login.jsp">Đăng nhập</a>
                     <a href="DK_taikhoan.jsp">Đăng ký</a>
+                    </c:if>
+                    <c:if test="${not empty sessionScope.user}">
+                    <a href="<c:url value="/Logout" />">Thoát</a>
+                    </c:if>
                 </div>
             </div>
         </div>
