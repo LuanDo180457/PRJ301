@@ -126,7 +126,8 @@
         <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
     </p>
 
-    <form method="post" action="/Quanly/voucher/EditVoucher">
+   <form method="post" action="<%= request.getContextPath() %>/Quanly/voucher/EditVoucher">
+
         <input type="hidden" name="id" value="<%= request.getAttribute("voucher") != null ? ((Voucher) request.getAttribute("voucher")).getId() : "" %>">
         <div>
             <label for="name">Voucher Name</label>
