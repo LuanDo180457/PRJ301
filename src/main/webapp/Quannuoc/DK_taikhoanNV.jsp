@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <div class="mySlides">
+            <img src="../image/Tradao.jpg" alt="Drink 3">
+            </div>
     </body>
 </html>

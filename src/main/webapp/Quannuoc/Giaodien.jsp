@@ -187,7 +187,7 @@
                     <a href="menu.jsp">Menu</a>
                     <c:if test="${empty sessionScope.user}">
                     <a href="${pageContext.request.contextPath}/Quannuoc/Login.jsp">Đăng nhập</a>
-                    <a href="DK_taikhoan.jsp">Đăng ký</a>
+                    <a href="<c:url value="/register" />">Đăng ký</a>
                     </c:if>
                     <c:if test="${not empty sessionScope.user}">
                     <a href="<c:url value="/Logout" />">Thoát</a>

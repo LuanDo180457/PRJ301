@@ -147,7 +147,7 @@ background-color: transparent;
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="20" height="20">
                     <path d="M11 19l-7-7 7-7" stroke="#6a82fb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Back
+                Quay Lại
             </button>
         </div>
     </body>
