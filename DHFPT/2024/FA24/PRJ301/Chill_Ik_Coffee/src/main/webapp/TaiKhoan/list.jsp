@@ -58,10 +58,18 @@
                 border-radius: 5px;
                 text-decoration: none;
             }
-            a.btn-secondary { background-color: #007bff; }
-            a.btn-secondary:hover { background-color: #0056b3; }
-            a.btn-danger { background-color: #dc3545; }
-            a.btn-danger:hover { background-color: #c82333; }
+            a.btn-secondary {
+                background-color: #007bff;
+            }
+            a.btn-secondary:hover {
+                background-color: #0056b3;
+            }
+            a.btn-danger {
+                background-color: #dc3545;
+            }
+            a.btn-danger:hover {
+                background-color: #c82333;
+            }
             nav {
                 background-color: thistle;
                 padding: 10px;
@@ -75,11 +83,26 @@
                 z-index: 1000;
                 transition: top 0.1s;
             }
-            nav .logo { font-size: 1.8em; font-weight: bold; color: white; }
-            nav ul { list-style: none; display: flex; }
-            nav ul li a { color: whitesmoke; padding: 8px 15px; border-radius: 5px; }
-            nav ul li span { color: white; }
-            body { padding-top: 70px; }
+            nav .logo {
+                font-size: 1.8em;
+                font-weight: bold;
+                color: white;
+            }
+            nav ul {
+                list-style: none;
+                display: flex;
+            }
+            nav ul li a {
+                color: whitesmoke;
+                padding: 8px 15px;
+                border-radius: 5px;
+            }
+            nav ul li span {
+                color: white;
+            }
+            body {
+                padding-top: 70px;
+            }
         </style>
     </head>
     <body>
@@ -87,20 +110,20 @@
             <div class="logo">Danh sách tài khoản</div>
             <ul>
                 <li><a href="<c:url value='${pageContext.request.contextPath}/trangchu' />">Trang chủ</a></li>
-                <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
                         <li><span>Xin chào, ${sessionScope.user.username}, </span> <a href="<c:url value='/Logout'/>">Thoát</a></li>
-                    </c:when>
-                    <c:otherwise>
+                        </c:when>
+                        <c:otherwise>
                         <li><a href="<c:url value='/Login'/>">Đăng nhập</a></li>
-                    </c:otherwise>
-                </c:choose>
+                        </c:otherwise>
+                    </c:choose>
             </ul>
         </nav>
 
         <h1>Danh sách tài khoản</h1>
         <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=create'/>" class="btn btn-success">Create</a>
-        
+
         <c:choose>
             <c:when test="${empty tk}">
                 <div>There is no account yet. Please create a new one!</div>
@@ -124,8 +147,8 @@
                                 <td><input type="checkbox" ${m.isNhanVien ? "checked" : ""} disabled class="rented-checkbox"></td>
                                 <td><input type="checkbox" ${m.isAdmin ? "checked" : ""} disabled class="rented-checkbox"></td>
                                 <td>
-                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=edit'/>?id=${m.id}" class="btn btn-secondary">Edit</a>
-                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=delete'/>?id=${m.id}" class="btn btn-danger">Delete</a>
+                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=edit'/>&id=${m.id}" class="btn btn-secondary">Edit</a>
+                                    <a href="<c:url value='/QuanliTaiKhoan?TaiKhoan=delete'/>&id=${m.id}" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -4,10 +4,162 @@
  */
 package DAO;
 
+import db.DBContext;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Drink;
+
 /**
  *
- * @author Do Van Luan - CE180457
+ * @author Nguyen Ngoc Phat - CE180321
  */
-public class DrinkDAO {
-    
+public class DrinkDAO extends DBContext {
+
+    // 1. Read
+    public ArrayList<Drink> getAll() {
+        ArrayList<Drink> drinks = new ArrayList<>();
+        String query = "SELECT id, name, gia, so_luong, loai_nuoc_id, trang_thai FROM mon_nuoc";
+
+        try ( ResultSet rs = execSelectQuery(query)) {
+            while (rs.next()) {
+                drinks.add(new Drink(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("gia"),
+                        rs.getInt("so_luong"),
+                        rs.getInt("loai_nuoc_id"),
+                        rs.getBoolean("trang_thai")
+                ));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DrinkDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error retrieving drinks");
+        }
+        return drinks;
+    }
+
+    public Drink getOnlyById(int id) {
+        String query = "SELECT id, name, gia, so_luong, loai_nuoc_id, trang_thai FROM mon_nuoc WHERE id = ?";
+        Object[] params = {id};
+
+        try ( ResultSet rs = execSelectQuery(query, params)) {
+            if (rs.next()) {
+                return new Drink(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("gia"),
+                        rs.getInt("so_luong"),
+                        rs.getInt("loai_nuoc_id"),
+                        rs.getBoolean("trang_thai")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving drink by ID");
+        }
+        return null;
+    }
+
+    // 2. Create
+    public int create(Drink drink) {
+        String getMaxIdQuery = "SELECT MAX(id) AS maxId FROM mon_nuoc";
+        try ( ResultSet rs = execSelectQuery(getMaxIdQuery)) {
+            int nextId = 1; // Start with ID 1
+            if (rs.next()) {
+                Integer maxId = rs.getInt("maxId");
+                if (maxId != null) {
+                    nextId = maxId + 1; // Increment if there are existing records
+                }
+            }
+
+            String createMovieQuery = "INSERT INTO mon_nuoc (id, name, gia, so_luong, loai_nuoc_id, trang_thai) VALUES (?, ?, ?, ?, ?, ?)";
+            Object[] params = {
+                nextId,
+                drink.getName(),
+                drink.getGia(),
+                drink.getSoluong(),
+                drink.getLoainuocid(),
+                drink.isTrangthai()
+            };
+            return execQuery(createMovieQuery, params);
+        } catch (SQLException ex) {
+            System.out.println("Error creating drink: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    // 3. Update
+    public int update(Drink drink) {
+        String sql = "UPDATE movies SET name = ?, gia = ?, so_luong = ?, loai_nuoc_id = ?, trang_thai = ? WHERE id = ?";
+        Object[] params = {
+            drink.getName(),
+            drink.getGia(),
+            drink.getSoluong(),
+            drink.getLoainuocid(),
+            drink.isTrangthai(),
+            drink.getId()
+        };
+        try {
+            return execQuery(sql, params);
+        } catch (SQLException ex) {
+            Logger.getLogger(DrinkDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    // 4. Delete
+    public int delete(int id) {
+        String deleteSql = "DELETE FROM mon_nuoc WHERE id = ?";
+        String renumberSql = "WITH CTE AS ("
+                + "SELECT id, ROW_NUMBER() OVER (ORDER BY id) AS new_id "
+                + "FROM mon_nuoc "
+                + ") "
+                + "UPDATE mon_nuoc "
+                + "SET id = CTE.new_id "
+                + "FROM CTE "
+                + "WHERE mon_nuoc.id = CTE.id;";
+
+        Connection conn = null;
+
+        try {
+            // Get the connection from DBContext
+            conn = getConnection();
+            conn.setAutoCommit(false); // Disable auto-commit
+
+            // Delete the movie
+            Object[] params = {id};
+            int result = execQuery(deleteSql, params);
+
+            if (result > 0) {
+                // Only renumber IDs if the deletion was successful
+                execQuery(renumberSql, null);
+            }
+
+            // Commit the transaction
+            conn.commit();
+            return result;
+        } catch (SQLException ex) {
+            System.out.println("Error during delete operation: " + ex.getMessage());
+            if (conn != null) {
+                try {
+                    // Roll back the transaction in case of error
+                    conn.rollback();
+                } catch (SQLException rollbackEx) {
+                    System.out.println("Error during rollback: " + rollbackEx.getMessage());
+                }
+            }
+            return 0;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Reset auto-commit back to true
+                }
+            } catch (SQLException e) {
+                System.out.println("Error resetting auto-commit: " + e.getMessage());
+            }
+        }
+    }
 }

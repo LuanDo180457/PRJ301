@@ -1,8 +1,13 @@
+<%-- 
+    Document   : menu
+    Created on : Oct 28, 2024, 11:34:26 PM
+    Author     : Nguyen Ngoc Phat - CE180321
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@page import="model.TaiKhoan"%>
+<%@page import="model.Drink"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="DAO.TaiKhoanDAO"%>
+<%@page import="DAO.DrinkDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +27,7 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-image: url('${pageContext.request.contextPath}/image/backgroup1.png');
+                background-image: url('../image/backgroup1.png');
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed; /* Giữ cố định nền khi cuộn */
@@ -162,69 +167,71 @@
                 bottom: 0; /* Đặt footer ở dưới cùng */
                 width: 100%; /* Đảm bảo footer chiếm toàn bộ chiều rộng */
             }
+
+            .menu-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+                padding: 20px;
+            }
+
+            .menu-item {
+                width: 200px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                text-align: center;
+            }
+
+            .menu-item img {
+                width: 100%;
+                height: auto;
+            }
+
+            .menu-info {
+                padding: 10px;
+            }
         </style>
     </head>
     <body>
         <div class="header">
-            <img src="${pageContext.request.contextPath}/image/Chill_Ik_Coffee_logo.jpg" alt="Chill Ik Coffee Logo">
+            <img src="../image/Chill_Ik_Coffee_logo.jpg" alt="Chill Ik Coffee Logo">
             <h1>Chill Ik Coffee</h1>
-
-            <c:if test="${not empty sessionScope.user}">
-
-                <c:if test="${sessionScope.user.isAdmin}">
-                    <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
-                    <a href="<c:url value='/Quanly/voucher/ListVoucher' />">Quản lí Voucher</a>
-
-                </c:if>
-
-                <li><span>Xin chào, ${sessionScope.user.username}</span></li>
-                </c:if>
-
-
-
-
             <div class="navbar">
                 <a href="#">Trang chủ</a>
                 <div class="dropdown">
                     <a href="menu.jsp">Menu</a>
-                    <c:if test="${empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/Quannuoc/Login.jsp">Đăng nhập</a>
-                        <a href="DK_taikhoan.jsp">Đăng ký</a>
-                    </c:if>
-                    <c:if test="${not empty sessionScope.user}">
-                        <a href="<c:url value="/Logout" />">Thoát</a>
-                    </c:if>
+                    <a href="login.jsp">Đăng nhập</a>
+                    <a href="DK_taikhoan.jsp">Đăng ký</a>
                 </div>
             </div>
         </div>
 
-        <div class="slideshow-container">
-            <div class="mySlides">
-                <img src="${pageContext.request.contextPath}/image/Tradao.jpg" alt="Drink 1">
-            </div>
-            <div class="mySlides">
-                <img src="${pageContext.request.contextPath}/image/drink1.JPG" alt="Drink 2">
-            </div>
-            <div class="mySlides">
-                <img src="${pageContext.request.contextPath}/image/Tradau.jpg" alt="Drink 3">
-            </div>
-        </div>
-
-        <div class="dot-container">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
+        <div class="menu-container">
+            <c:forEach items="${drinks}" var="d" >
+                <div class="menu-item">
+                    <div class="menu-info">
+                        <h3>${d.name}</h3>
+                        <p>Giá: ${d.gia} VND</p>
+                        <p>Trạng thái: 
+                            <c:choose>
+                                <c:when test="${d.trangthai}">Còn</c:when>
+                                <c:otherwise>Hết</c:otherwise>
+                            </c:choose>
+                        </p>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
 
         <div class="main-content">
             <div class="voucher">
                 <h2>Special Vouchers</h2>
-                <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
-
-                <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
-
-                <img src="${pageContext.request.contextPath}/image/voucher.jpg" alt="Voucher" width="300px">
-
+                <img src="../image/voucher.jpg" alt="Voucher" width="300px">
+                <img src="../image/voucher.jpg" alt="Voucher" width="300px">
+                <img src="../image/voucher.jpg" alt="Voucher" width="300px">
             </div>
         </div>
 
@@ -272,4 +279,3 @@
         </script>
     </body>
 </html>
-}
