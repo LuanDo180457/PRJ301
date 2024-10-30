@@ -19,7 +19,7 @@ import model.TaiKhoan;
  *
  * @author Phan Hồng Tài - CE181490
  */
-@WebServlet(name="loginControl", urlPatterns={"/login"})
+@WebServlet(name = "loginControl", urlPatterns = {"/login"})
 public class loginControl extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,12 +73,16 @@ public class loginControl extends HttpServlet {
 session.setAttribute("mess", "Invalid username or password.");
                   request.getRequestDispatcher("/Quannuoc/Login.jsp").forward(request, response);
                 }*/
-        
         TaiKhoan userAccount = userDAO.AccTaiKhoanlogin(username, password);
 
         if (userAccount != null) {
             session.setAttribute("user", userAccount); // Lưu toàn bộ đối tượng TaiKhoan vào session
-            response.sendRedirect(request.getContextPath() + "/trangchu"); // Chuyển hướng tới trang chủ
+            if (userAccount.isIsAdmin()) {
+                response.sendRedirect(request.getContextPath() + "/trangchu"); // Chuyển hướng tới trang chủ
+            } else {
+                response.sendRedirect(request.getContextPath() + "/Menu"); // Chuyển hướng tới trang chủ
+
+            }
         } else {
             session.setAttribute("mess", "Invalid username or password.");
             request.getRequestDispatcher("/Quannuoc/Login.jsp").forward(request, response);

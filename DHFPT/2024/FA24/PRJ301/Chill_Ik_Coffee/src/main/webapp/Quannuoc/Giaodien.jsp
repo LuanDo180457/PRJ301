@@ -174,6 +174,7 @@
                 <c:if test="${sessionScope.user.isAdmin}">
                     <a href="<c:url value='/QuanliTaiKhoan' />">Quản lí tài khoản</a>
                     <a href="<c:url value='/Quanly/voucher/ListVoucher' />">Quản lí Voucher</a>
+                    <a href="<c:url value='/Quanly/DoanhThu' />">Quản lí doanh thu</a>
 
                 </c:if>
 
@@ -186,10 +187,10 @@
             <div class="navbar">
                 <a href="#">Trang chủ</a>
                 <div class="dropdown">
-                    <a href="menu.jsp">Menu</a>
+                    <a href="<c:url value="/Menu"/>">Menu</a>
                     <c:if test="${empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/Quannuoc/Login.jsp">Đăng nhập</a>
-                        <a href="DK_taikhoan.jsp">Đăng ký</a>
+                        <a href="<c:url value="/login"/>">Đăng nhập</a>
+                        <a href="<c:url value="/register"/>">Đăng ký</a>
                     </c:if>
                     <c:if test="${not empty sessionScope.user}">
                         <a href="<c:url value="/Logout" />">Thoát</a>
