@@ -1,3 +1,4 @@
+
 import DAO.VoucherDAO;
 import java.io.IOException;
 import java.sql.Date;
@@ -22,7 +23,6 @@ public class EditVoucherServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/Quanly/voucher/ListVoucher"); // Nếu không tìm thấy ID hợp lệ, chuyển về danh sách
             return;
         }
-
         // Lấy thông tin voucher từ CSDL
         VoucherDAO dao = new VoucherDAO();
         Voucher voucher = dao.getOnlyById(id);
@@ -30,7 +30,6 @@ public class EditVoucherServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/Quanly/voucher/ListVoucher");
             return;
         }
-
         request.setAttribute("voucher", voucher);
         request.getRequestDispatcher("/Quanly/voucher/edit-voucher.jsp").forward(request, response);
     }
@@ -45,7 +44,6 @@ public class EditVoucherServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-
         // Nhận các tham số từ biểu mẫu
         String name = request.getParameter("name");
         int discount;
@@ -56,7 +54,6 @@ public class EditVoucherServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-
         String expiryDateString = request.getParameter("expiry_date");
         Date expiryDate;
         try {
@@ -68,19 +65,16 @@ public class EditVoucherServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-
         // Xác thực các giá trị đầu vào
         if (isValidInput(name, discount, expiryDate)) {
             VoucherDAO vDAO = new VoucherDAO();
             Voucher voucher = new Voucher(id, name, discount, expiryDate, true);
-
             // Cập nhật voucher trong CSDL
             if (vDAO.update(voucher) == 1) {
                 response.sendRedirect(request.getContextPath() + "/Quanly/voucher/ListVoucher");
                 return;
             }
         }
-
         // Nếu xác thực thất bại, đặt thông báo lỗi và chuyển tiếp lại đến biểu mẫu
         request.setAttribute("errorMessage", "Please enter valid input values.");
         doGet(request, response);
