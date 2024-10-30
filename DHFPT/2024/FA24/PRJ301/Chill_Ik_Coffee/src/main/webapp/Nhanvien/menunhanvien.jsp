@@ -1,6 +1,6 @@
 <%-- 
-    Document   : menu
-    Created on : Oct 28, 2024, 11:34:26 PM
+    Document   : menunhanvien
+    Created on : Oct 30, 2024, 3:37:57 PM
     Author     : Nguyen Ngoc Phat - CE180321
 --%>
 
@@ -229,8 +229,8 @@
                                 <c:otherwise>Hết</c:otherwise>
                             </c:choose>
                         </p>
-                        <button>-</button>
-                        <button>+</button>
+                        <a href="<c:url value="/Edit" />?id=${m.id}" class="btn btn-secondary">Edit</a>
+                        <a href="<c:url value="/Delete" />?id=${m.id}" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </c:forEach>

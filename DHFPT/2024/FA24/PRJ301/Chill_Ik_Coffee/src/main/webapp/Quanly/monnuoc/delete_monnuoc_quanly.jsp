@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Menu_Chinh_suaSL
-    Created on : Oct 19, 2024, 3:53:51 PM
-    Author     : Do Van Luan - CE180457
+    Document   : delete_monnuoc_quanly
+    Created on : Oct 30, 2024, 3:29:22 PM
+    Author     : Nguyen Ngoc Phat - CE180321
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
