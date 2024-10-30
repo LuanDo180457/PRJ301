@@ -20,7 +20,7 @@ public class VoucherDAO extends DBContext {
         ArrayList<Voucher> vouchers = new ArrayList<>();
         String query = "SELECT * FROM voucher";
 
-        try (ResultSet rs = execSelectQuery(query)) {
+        try ( ResultSet rs = execSelectQuery(query)) {
             while (rs.next()) {
                 vouchers.add(new Voucher(
                         rs.getInt("id"),
@@ -41,7 +41,7 @@ public class VoucherDAO extends DBContext {
         String query = "SELECT id, name, giam_gia, ngay_het_han, trang_thai FROM voucher WHERE id = ?";
         Object[] params = {id};
 
-        try (ResultSet rs = execSelectQuery(query, params)) {
+        try ( ResultSet rs = execSelectQuery(query, params)) {
             if (rs.next()) {
                 return new Voucher(
                         rs.getInt("id"),
@@ -61,7 +61,7 @@ public class VoucherDAO extends DBContext {
     // 2. Create
     public int create(Voucher voucher) {
         String getMaxIdQuery = "SELECT MAX(id) AS maxId FROM voucher";
-        try (ResultSet rs = execSelectQuery(getMaxIdQuery)) {
+        try ( ResultSet rs = execSelectQuery(getMaxIdQuery)) {
             int nextId = 1; // Start with ID 1
             if (rs.next()) {
                 Integer maxId = rs.getInt("maxId");
@@ -72,11 +72,11 @@ public class VoucherDAO extends DBContext {
 
             String createVoucherQuery = "INSERT INTO voucher (id, name, giam_gia, ngay_het_han, trang_thai) VALUES (?, ?, ?, ?, ?)";
             Object[] params = {
-                    nextId,
-                    voucher.getName(),
-                    voucher.getGiamGia(),
-                    voucher.getNgayHetHan(),
-                    voucher.isTrangThai()
+                nextId,
+                voucher.getName(),
+                voucher.getGiamGia(),
+                voucher.getNgayHetHan(),
+                voucher.isTrangThai()
             };
             return execQuery(createVoucherQuery, params);
         } catch (SQLException ex) {
@@ -89,11 +89,11 @@ public class VoucherDAO extends DBContext {
     public int update(Voucher voucher) {
         String sql = "UPDATE voucher SET name = ?, giam_gia = ?, ngay_het_han = ?, trang_thai = ? WHERE id = ?";
         Object[] params = {
-                voucher.getName(),
-                voucher.getGiamGia(),
-                voucher.getNgayHetHan(),
-                voucher.isTrangThai(),
-                voucher.getId()
+            voucher.getName(),
+            voucher.getGiamGia(),
+            voucher.getNgayHetHan(),
+            voucher.isTrangThai(),
+            voucher.getId()
         };
         try {
             return execQuery(sql, params);
@@ -103,17 +103,29 @@ public class VoucherDAO extends DBContext {
         }
     }
 
+// 5. Delete expired vouchers
+    public int deleteExpiredVouchers() {
+        String query = "DELETE FROM voucher WHERE ngay_het_han < CURRENT_DATE"; // Sử dụng CURRENT_DATE để lấy ngày hiện tại
+        try {
+            return execQuery(query, null); // Không cần params, chỉ cần chạy query
+        } catch (SQLException e) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Error deleting expired vouchers");
+            return 0; // Trả về 0 nếu có lỗi
+        }
+    }
+
     // 4. Delete
     public int delete(int id) {
         String deleteSql = "DELETE FROM voucher WHERE id = ?";
-        String renumberSql = "WITH CTE AS (" +
-                "SELECT id, ROW_NUMBER() OVER (ORDER BY id) AS new_id " +
-                "FROM voucher " +
-                ") " +
-                "UPDATE voucher " +
-                "SET id = CTE.new_id " +
-                "FROM CTE " +
-                "WHERE voucher.id = CTE.id;";
+        String renumberSql = "WITH CTE AS ("
+                + "SELECT id, ROW_NUMBER() OVER (ORDER BY id) AS new_id "
+                + "FROM voucher "
+                + ") "
+                + "UPDATE voucher "
+                + "SET id = CTE.new_id "
+                + "FROM CTE "
+                + "WHERE voucher.id = CTE.id;";
 
         Connection conn = null;
 

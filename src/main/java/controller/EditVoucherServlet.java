@@ -1,3 +1,4 @@
+
 import DAO.VoucherDAO;
 import java.io.IOException;
 import java.sql.Date;
@@ -11,7 +12,7 @@ import model.Voucher;
 
 @WebServlet(name = "EditVoucherServlet", urlPatterns = {"/Quanly/voucher/EditVoucher"})
 public class EditVoucherServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy ID voucher từ request

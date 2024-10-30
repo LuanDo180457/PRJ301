@@ -2,9 +2,6 @@ package model;
 
 import java.sql.Date;
 
-/**
- * Model class representing a Voucher entity.
- */
 public class Voucher {
 
     private int id =0;

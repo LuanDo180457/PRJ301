@@ -1,8 +1,4 @@
-<%-- 
-    Document   : create-voucher
-    Created on : Oct 26, 2024, 9:21:38 AM
-    Author     : Vo Truong Qui - CE181170
---%>
+
 
 <%-- 
     Document   : create-voucher
