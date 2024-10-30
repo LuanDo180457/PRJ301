@@ -30,6 +30,7 @@ public class menuServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Phương thức POST có thể để trống nếu không sử dụng
     }
 
     @Override
