@@ -80,50 +80,24 @@
     </head>
     <body>
         <div class="header">
-            <img src="../image/Chill_Ik_Coffee_logo.jpg" alt="Chill Ik Coffee Logo">
             <h1>Chill Ik Coffee</h1>
-            <a href="<c:url value='/cart' />">Giỏ hàng</a>
-            <a href="<c:url value='/purchase' />">Mua hàng</a>
-            <div class="navbar">
-                <a href="#">Trang chủ</a>
-                <div class="dropdown">
-                    <c:if test="${empty sessionScope.user}">
-                        <a href="<c:url value='/Menu' />">Menu</a>
-                        <a href="${pageContext.request.contextPath}/Quannuoc/Login.jsp">Đăng nhập</a>
-                        <a href="DK_taikhoan.jsp">Đăng ký</a>
-                    </c:if>
-                    <c:if test="${not empty sessionScope.user}">
-                        <a href="<c:url value='/Logout' />">Thoát</a>
-                    </c:if>
-                </div>
-            </div>
+            <a href="<c:url value='/cart' />">Gio Hang</a>
         </div>
 
         <div class="menu-container">
             <c:if test="${empty drinks}">
-                <p>Không có sản phẩm nào trong menu.</p>
+                <p>There are no products in the menu.</p>
             </c:if>
             <c:forEach items="${drinks}" var="d">
                 <div class="menu-item">
-                    <div class="menu-info">
-                        <h3>${d.name}</h3>
-                        <p>Giá: ${d.gia} VND</p>
-                        <p>Trạng thái: 
-                            <c:choose>
-                                <c:when test="${d.trangthai}">Còn</c:when>
-                                <c:otherwise>Hết</c:otherwise>
-                            </c:choose>
-                        </p>
-
-                        <!-- Add a form for each drink -->
-                        <form action="${pageContext.request.contextPath}/cart" method="post">
-                            <input type="hidden" name="productId" value="${product.id}" />
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" min="1" value="1" required />
-                            <button type="submit">Add to Cart</button>
-                        </form>
-
-                    </div>
+                    <h3>${d.name}</h3>
+                    <p>Price: ${d.gia} VND</p>
+                    <form action="${pageContext.request.contextPath}/cart" method="post">
+                        <input type="hidden" name="productId" value="${d.id}" />
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" min="1" value="1" required />
+                        <button type="submit">Add to cart</button>
+                    </form>
                 </div>
             </c:forEach>
         </div>
@@ -131,21 +105,5 @@
         <footer>
             <p>Địa chỉ: Đại học FPT Cần Thơ | Số điện thoại: 0584428016</p>
         </footer>
-
-        <script>
-            function incrementQuantity(button) {
-                const input = button.previousElementSibling; // Get the quantity input
-                let value = parseInt(input.value);
-                input.value = value + 1; // Increment the quantity
-            }
-
-            function decrementQuantity(button) {
-                const input = button.nextElementSibling; // Get the quantity input
-                let value = parseInt(input.value);
-                if (value > 1) { // Ensure quantity does not go below 1
-                    input.value = value - 1; // Decrement the quantity
-                }
-            }
-        </script>
     </body>
 </html>

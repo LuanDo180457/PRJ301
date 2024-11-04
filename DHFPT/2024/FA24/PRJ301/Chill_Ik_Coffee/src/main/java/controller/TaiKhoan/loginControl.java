@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.TaiKhoan;
 
 import DAO.UserDAO;
 import java.io.IOException;
@@ -77,8 +77,11 @@ session.setAttribute("mess", "Invalid username or password.");
 
         if (userAccount != null) {
             session.setAttribute("user", userAccount); // Lưu toàn bộ đối tượng TaiKhoan vào session
+            session.setAttribute("id", userAccount.getId()); // Store user ID in session
             if (userAccount.isIsAdmin()) {
+                
                 response.sendRedirect(request.getContextPath() + "/trangchu"); // Chuyển hướng tới trang chủ
+                
             } else {
                 response.sendRedirect(request.getContextPath() + "/Menu"); // Chuyển hướng tới trang chủ
 

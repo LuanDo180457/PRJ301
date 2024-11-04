@@ -4,27 +4,33 @@ package model;
  * Model class for CartItem.
  */
 public class CartItem {
-    private String productId;
+    private String productName;
     private int quantity;
+    private double price;
+    private double totalPrice;
 
-    public CartItem(String productId, int quantity) {
-        this.productId = productId;
+    public CartItem(String productName, int quantity, double price, double totalPrice) {
+        this.productName = productName;
         this.quantity = quantity;
+        this.price = price;
+        this.totalPrice = totalPrice;
     }
 
-    public String getProductId() {
-        return productId;
-    }
+    // Getters and setters
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public String getProductName() {
+        return productName;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public double getPrice() {
+        return price;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 }

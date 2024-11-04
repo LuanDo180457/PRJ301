@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.TaiKhoan;
 
 import DAO.TaiKhoanDAO;
 import java.io.IOException;
@@ -37,9 +37,9 @@ public class QuanliTaiKhoan extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        /* if (session.getAttribute("user") == null) {
+         if (session.getAttribute("user") == null) {
             request.getRequestDispatcher("/Quannuoc/Login.jsp").forward(request, response);
-        } else {*/
+        } else {
         String view = request.getParameter("TaiKhoan");
         if (view == null || view.equals("list")) {
 
@@ -107,7 +107,7 @@ public class QuanliTaiKhoan extends HttpServlet {
             request.getRequestDispatcher("/TaiKhoan/delete.jsp").forward(request, response);
         }
 
-        /* }*/
+        }
     }
 
     /**
