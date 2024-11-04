@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import java.security.MessageDigest;
@@ -13,19 +9,13 @@ import java.sql.SQLException;
 
 import model.TaiKhoan;
 
-/**
- *
- * @author Do Van Luan - CE180457
- */
 public class UserDAO extends db.DBContext {
 
     // Hàm kiểm tra đăng nhập
     public boolean login(String username, String password) {
         String sql = "SELECT COUNT(id) FROM tai_khoan WHERE username = ? AND password = ?";
-        try ( Connection conn = getConnection(); // Kết nối tới cơ sở dữ liệu
-                  PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Set giá trị cho các tham số trong câu lệnh SQL
             ps.setString(1, username);
             ps.setString(2, hashMd5(password)); // Mã hóa mật khẩu bằng MD5
 
@@ -55,56 +45,28 @@ public class UserDAO extends db.DBContext {
         }
     }
 
-    // Hàm kiểm tra đăng nhập
-    // Hàm kiểm tra đăng nhập
+    // Hàm kiểm tra đăng nhập và trả về đối tượng TaiKhoan nếu thành công
     public TaiKhoan AccTaiKhoanlogin(String username, String password) {
         String sql = "SELECT * FROM tai_khoan WHERE username = ? AND password = ?";
-        try ( Connection conn = getConnection(); // Kết nối tới cơ sở dữ liệu
-                  PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Set giá trị cho các tham số trong câu lệnh SQL
             ps.setString(1, username);
-            ps.setString(2, hashMd5(password)); // Mã hóa mật khẩu bằng MD5
+            ps.setString(2, hashMd5(password));
 
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 return new TaiKhoan(
-                        rs.getInt("id"), // ID của tài khoản
-                        rs.getString("username"), // Tên đăng nhập
-                        rs.getString("password"), // Mật khẩu (nên mã hóa)
-                        rs.getBoolean("is_nhan_vien"), // Trạng thái
-                        rs.getBoolean("is_admin") // Trạng thái admin
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getBoolean("is_nhan_vien"),
+                        rs.getBoolean("is_admin")
                 );
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Ghi lại lỗi SQL
-        } catch (Exception e) {
-            e.printStackTrace(); // Ghi lại các lỗi khác
+            e.printStackTrace();
         }
         return null; // Đăng nhập thất bại
     }
-
-    public static void main(String[] args) {
-        UserDAO userDAO = new UserDAO();
-
-        // Thay đổi username và password theo nhu cầu kiểm tra
-        String testUsername = "admin"; // Tên đăng nhập bạn muốn kiểm tra
-        String testPassword = "123456"; // Mật khẩu bạn muốn kiểm tra
-
-        // Gọi hàm AccTaiKhoanlogin để kiểm tra đăng nhập
-        TaiKhoan account = userDAO.AccTaiKhoanlogin(testUsername, testPassword);
-
-        if (account != null) {
-            System.out.println("Đăng nhập thành công!");
-            System.out.println("ID: " + account.getId());
-            System.out.println("Username: " + account.getUsername());
-            System.out.println("Is Nhân Viên: " + account.isIsNhanVien());
-            System.out.println("Is Admin: " + account.isIsAdmin());
-        } else {
-            System.out.println("Đăng nhập thất bại!");
-        }
-    }
-
 }

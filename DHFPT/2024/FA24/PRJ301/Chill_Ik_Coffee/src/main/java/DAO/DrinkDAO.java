@@ -9,8 +9,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CartItem;
 import model.Drink;
 
 /**
@@ -162,4 +165,37 @@ public class DrinkDAO extends DBContext {
             }
         }
     }
+    // Method to calculate the total price of the items in the cart
+
+    public double calculateTotalPrice(Map<Integer, Integer> cart) {
+        double totalPrice = 0.0;
+
+        for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+            int drinkId = entry.getKey();
+            int quantity = entry.getValue();
+            Drink drink = getOnlyById(drinkId); // Fetch the drink by ID
+
+            if (drink != null) {
+                totalPrice += drink.getGia() * quantity; // Add price for the quantity
+            }
+        }
+        return totalPrice;
+    }
+
+// Method to get cart items based on a map of IDs and quantities
+    public List<CartItem> getCartItems(Map<Integer, Integer> cart) {
+        List<CartItem> cartItems = new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+            int drinkId = entry.getKey();
+            int quantity = entry.getValue();
+            Drink drink = getOnlyById(drinkId);
+
+            if (drink != null) {
+                cartItems.add(new CartItem(drink.getName(), quantity, drink.getGia(), quantity * drink.getGia()));
+            }
+        }
+        return cartItems;
+    }
+
 }

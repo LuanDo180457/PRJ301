@@ -192,6 +192,7 @@
                         <a href="<c:url value="/login"/>">Đăng nhập</a>
                         <a href="<c:url value="/register"/>">Đăng ký</a>
                     </c:if>
+                    <a href="<c:url value="/DonDK"/>">Nộp Đơn</a>
                     <c:if test="${not empty sessionScope.user}">
                         <a href="<c:url value="/Logout" />">Thoát</a>
                     </c:if>

@@ -1,4 +1,4 @@
-package controller;
+package controller.Voucher;
 
 import DAO.VoucherDAO;
 import model.Voucher;
